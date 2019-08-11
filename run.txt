@@ -2,5 +2,7 @@ export FLASK_APP=main.py
 export FLASK_DEBUG=1
 flask run: Para correr la aplicacion
 flask run 
+export FLASK_ENV=development
+Crear una llave secreta para que las cookies esten encritpadas
 
 Nota: Codigo 302 el codigo cuando se redirecciona
