@@ -4,5 +4,6 @@ flask run: Para correr la aplicacion
 flask run 
 export FLASK_ENV=development
 Crear una llave secreta para que las cookies esten encritpadas
+flask test para correr tests
 
 Nota: Codigo 302 el codigo cuando se redirecciona
