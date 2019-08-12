@@ -38,6 +38,17 @@ class MainTest(TestCase):
         response = self.client.post(url_for('hello'),data=fake_form)
         self.assertRedirects(response, url_for('index'))
 
-    # Probar Blueprints
-    def test_auth_blueprint_exits(self):
+    # Probar Blueprint
+    def test_auth_blueprint_exist(self):
         self.assertIn('auth', self.app.blueprints)
+
+    # Test 200
+    def test_auth_login(self):
+        response = self.client.get(url_for('auth.login'))
+        self.assert200(response)
+
+    # Test login template
+    def test_auth_login_tempalte(self):
+        self.client.get(url_for('auth.login'))
+        self.assertTemplateUsed('login.html')
+        
