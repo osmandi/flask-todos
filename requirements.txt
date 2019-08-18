@@ -3,3 +3,6 @@ flask-bootstrap
 flask-wtf
 flask-testing
 blinker
+sqlalchemy
+flask-sqlalchemy
+flask-login
