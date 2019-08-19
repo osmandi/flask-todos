@@ -27,3 +27,10 @@ flask test
 
 
 > Nota: La app funciona con SQLite, la estructura del la base de datos está dentro del repositorio :)
+
+### Qué incluye
+
+- Signup y Login de usuarios, cuya contraseña está encriptada dentro de la base de datos utilizando.
+- Crear, borrar y actualizar lista de tareas (asociadas al usuario registrado).
+- Mantiene sesión abierta del usuario con la Cookie, la cual queda encriptado con una palabra clave (no almacenar esta clave en repositorio de producción)
+
