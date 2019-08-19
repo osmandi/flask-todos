@@ -18,10 +18,11 @@ class UserModel(UserMixin):
     @staticmethod
     def query(user_id):
         user_doc = get_user(user_id)
-        user_data = UserData(
-            username=user_doc[0],
-            password=user_doc[1]
-        )
-        
-        return UserModel(user_data)
     
+        user_data = UserData(
+            username=user_doc[0][0],
+            password=user_doc[0][1]
+        )
+
+        return UserModel(user_data)
+      

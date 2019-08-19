@@ -1,10 +1,11 @@
 from flask import Flask, request, make_response, redirect, render_template, session, url_for, flash
 import unittest
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from app import create_app
 from app.forms import LoginForm
-from app.sqlite_service import get_users, get_todos
+from app.forms import TodoForm, DeleteTodoForm, UpdateTodoForm
+from app.sqlite_service import get_users, get_todos, put_todos, delete_todo, update_todo
 
 
 app = create_app()
@@ -42,30 +43,45 @@ def index():
 def hello():
     #user_ip = request.cookies.get('user_ip')
     user_ip = session.get('user_ip')
-    login_form = LoginForm()
-    username = session.get('username')
+    username = current_user.id
+    todo_form = TodoForm()
+    delete_form = DeleteTodoForm()
+    update_form =  UpdateTodoForm()
+
 
     #return "Hello World Platzi, tu IP es {}".format(user_ip) 
     context = {
             'user_ip': user_ip,
             'todos': get_todos(username=username),
-            'login_form': login_form,
-            'username': username
-            }
-             
-    '''
-    users = get_users()
-    for user in users:
-        print(user[1])
-    # Detectara el POST
-    if login_form.validate_on_submit():
-        username = login_form.username.data
-        # Guardar la sesion
-        session['username'] = username
+            'username': username,
+            'todo_form': todo_form,
+            'delete_form': delete_form,
+            'update_form': update_form
+    }
 
-        flash('Nombre de usuario registrado con exito!')    
+    if todo_form.validate_on_submit():
+            put_todos(user_id=username, description=todo_form.description.data, done=0)
 
-        return redirect(url_for('index'))
-    '''
+            flash('Tu tarea se creo con exito!')
 
+            return redirect(url_for('hello'))
+            
+
+
+     
     return render_template('hello.html', **context) # Los ** es para expandir las variables
+
+@app.route('/todos/delete/<todo_id>', methods=['POST'])
+def delete(todo_id):
+        user_id = current_user.id
+        print('TODO ID : {}'.format(todo_id))
+        delete_todo(user_id=user_id, todo_id=todo_id)
+
+        return redirect(url_for('hello'))
+
+@app.route('/todos/update/<todo_id>/<int:done>', methods=['POST'])
+def update(todo_id, done):
+        user_id = current_user.id
+        update_todo(user_id=user_id, todo_id=todo_id, done=done)
+
+        return redirect(url_for('hello'))
